@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Para Natalia</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +16,7 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      padding: 40px;
+      padding: 20px;
       overflow-x: hidden;
     }
     .sobre-wrap {
@@ -71,7 +73,7 @@
     .polaroid-stack {
       position: relative;
       width: 320px;
-      max-width: 80vw;
+      max-width: 90vw;
       height: 420px;
     }
     .polaroid {
@@ -79,7 +81,7 @@
       padding: 16px 16px 16px 16px;
       box-shadow: 0 10px 40px rgba(0,0,0,0.15);
       border-radius: 2px;
-      max-width: 320px;
+      max-width: 90vw;
       position: absolute;
       top: 0;
       left: 0;
@@ -256,19 +258,30 @@
     }
 
     @media (max-width: 550px) {
+      body {
+        padding: 16px;
+      }
       .sobre-wrap {
-        width: 280px;
-        height: 190px;
+        width: 300px;
+        height: 206px;
       }
       .tapa {
-        border-left-width: 140px;
-        border-right-width: 140px;
-        border-top-width: 95px;
+        border-left-width: 150px;
+        border-right-width: 150px;
+        border-top-width: 103px;
       }
       .sobre-fondo {
-        border-left-width: 140px;
-        border-right-width: 140px;
-        border-top-width: 95px;
+        border-left-width: 150px;
+        border-right-width: 150px;
+        border-top-width: 103px;
+      }
+      .polaroid-stack {
+        width: 90vw;
+        height: 75vh;
+        max-height: 480px;
+      }
+      .polaroid img {
+        max-height: 65vh;
       }
       .carta {
         width: 90vw;
@@ -279,9 +292,6 @@
       }
       .cuerpo {
         font-size: 15px;
-      }
-      .polaroid {
-        max-width: 80vw;
       }
     }
   </style>
