@@ -215,7 +215,6 @@
       border-radius: 50%;
       width: 40px;
       height: 40px;
-      display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
@@ -422,6 +421,7 @@
       musica.volume = 0.5;
       musica.play().catch(() => {});
       musicaToggle.style.display = 'flex';
+      document.getElementById('reiniciar').style.display = 'flex';
 
       // Paso 1 — la tapa se abre
       sobre.querySelector('.tapa').style.transform = 'rotateX(180deg)';
@@ -484,7 +484,6 @@
           const carta = document.getElementById('carta');
           carta.style.display = 'block';
           carta.style.animation = 'entrarCarta 0.9s ease forwards';
-          document.getElementById('reiniciar').style.display = 'flex';
         }, 550);
       }
     });
