@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Para Natalia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #fdfaf4;
+      font-family: 'Georgia', serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 40px;
+      overflow-x: hidden;
+    }
+    .sobre-wrap {
+      cursor: pointer;
+      width: 320px;
+      height: 220px;
+      position: relative;
+    }
+    .sobre {
+      width: 100%;
+      height: 100%;
+      background-color: #f5ede0;
+      border-radius: 6px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+      position: relative;
+    }
+    .tapa {
+      position: absolute;
+      top: 0; left: 0;
+      width: 0; height: 0;
+      border-left: 160px solid transparent;
+      border-right: 160px solid transparent;
+      border-top: 110px solid #e8d8c4;
+      transform-origin: top center;
+      transition: transform 0.6s ease;
+      z-index: 2;
+    }
+    .sobre-fondo {
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 0;
+      border-left: 160px solid #ddc9b0;
+      border-right: 160px solid #ddc9b0;
+      border-top: 110px solid transparent;
+    }
+    .toca {
+      position: absolute;
+      bottom: 35px;
+      width: 100%;
+      text-align: center;
+      font-size: 13px;
+      color: #a89880;
+      letter-spacing: 1px;
+      animation: pulsar 2s infinite;
+    }
+
+    /* Polaroid */
+    .polaroid-wrap {
+      display: none;
+      cursor: pointer;
+      text-align: center;
+      min-height: 460px;
+    }
+    .polaroid-stack {
+      position: relative;
+      width: 320px;
+      max-width: 80vw;
+      height: 420px;
+    }
+    .polaroid {
+      background: white;
+      padding: 16px 16px 16px 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      border-radius: 2px;
+      max-width: 320px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      box-sizing: border-box;
+      transition: transform 0.5s ease, opacity 0.5s ease;
+      transform-origin: bottom center;
+      display: flex;
+      flex-direction: column;
+    }
+    .polaroid img {
+      width: 100%;
+      max-height: 380px;
+      object-fit: cover;
+      display: block;
+    }
+    .polaroid-caption {
+      font-family: 'Caveat', cursive;
+      font-size: 22px;
+      font-weight: 600;
+      color: #4a4538;
+      text-align: center;
+      margin: 0;
+      transform: rotate(-1.5deg);
+      line-height: 1;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .polaroid.activa {
+      z-index: 5;
+      transform: rotate(-2deg);
+      opacity: 1;
+    }
+    .polaroid.detras-1 {
+      z-index: 4;
+      transform: scale(0.96) translateY(10px) rotate(2deg);
+      opacity: 1;
+    }
+    .polaroid.detras-2 {
+      z-index: 3;
+      transform: scale(0.92) translateY(20px) rotate(-3deg);
+      opacity: 1;
+    }
+    .polaroid.detras-3-inicial {
+      z-index: 2;
+      transform: scale(0.92) translateY(20px) rotate(-3deg);
+      opacity: 1;
+    }
+    .polaroid.saliendo-mano {
+      z-index: 6;
+      animation: pasarFoto 0.5s ease forwards;
+    }
+    .polaroid-toca {
+      margin-top: 16px;
+      font-size: 12px;
+      color: #a89880;
+      letter-spacing: 1px;
+      animation: pulsar 3s infinite;
+    }
+    .polaroid-wrap.saliendo {
+      animation: salirPolaroid 0.6s ease forwards;
+    }
+
+    .carta {
+      display: none;
+      background-color: white;
+      width: 500px;
+      padding: 50px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      border-top: 3px solid #c8a96e;
+      opacity: 0;
+    }
+    .fecha {
+      font-size: 12px;
+      color: #a89880;
+      letter-spacing: 2px;
+      margin-bottom: 24px;
+    }
+    .saludo {
+      font-size: 28px;
+      color: #c8a96e;
+      margin-bottom: 20px;
+    }
+    .cuerpo {
+      font-size: 16px;
+      color: #3a3828;
+      line-height: 1.9;
+      margin-bottom: 16px;
+    }
+    .firma {
+      font-style: italic;
+      color: #a89880;
+      font-size: 15px;
+      text-align: right;
+      margin-top: 30px;
+    }
+    #musica-toggle {
+      display: none;
+      position: fixed;
+      bottom: 16px;
+      left: 16px;
+      font-size: 18px;
+      background: #fdfaf4;
+      border: 1px solid #c8a96e;
+      color: #c8a96e;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+    }
+    #reiniciar {
+      display: none;
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      font-size: 20px;
+      color: #c8a96e;
+      background: #fdfaf4;
+      border: 1px solid #c8a96e;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.3s ease, color 0.3s ease;
+      z-index: 10;
+    }
+    #reiniciar:hover {
+      background: #c8a96e;
+      color: white;
+    }
+
+    @keyframes pulsar {
+      0%, 100% { opacity: 0.4; }
+      50%       { opacity: 1; }
+    }
+    @keyframes aparecer {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes aparecerPolaroid {
+      from { opacity: 0; transform: scale(0.9) rotate(-3deg); }
+      to   { opacity: 1; transform: scale(1) rotate(-2deg); }
+    }
+    @keyframes salirHoja {
+      from { transform: translateX(-50%) scaleY(0.3); opacity: 0; bottom: 10%; }
+      to   { transform: translateX(-50%) scaleY(1);   opacity: 1; bottom: 75%; }
+    }
+    @keyframes caer {
+      0%   { transform: translateY(0) rotate(0deg);   opacity: 0; }
+      5%   { opacity: 0.8; }
+      90%  { opacity: 0.5; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+    @keyframes pasarFoto {
+      from { transform: rotate(-2deg) translateX(0) translateY(0); opacity: 1; }
+      to   { transform: rotate(10deg) translateX(120%) translateY(30px); opacity: 0; }
+    }
+    @keyframes salirPolaroid {
+      from { opacity: 1; transform: scale(1) rotate(-2deg); }
+      to   { opacity: 0; transform: scale(0.85) rotate(4deg) translateY(-20px); }
+    }
+    @keyframes entrarCarta {
+      from { opacity: 0; transform: translateY(40px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @media (max-width: 550px) {
+      .sobre-wrap {
+        width: 280px;
+        height: 190px;
+      }
+      .tapa {
+        border-left-width: 140px;
+        border-right-width: 140px;
+        border-top-width: 95px;
+      }
+      .sobre-fondo {
+        border-left-width: 140px;
+        border-right-width: 140px;
+        border-top-width: 95px;
+      }
+      .carta {
+        width: 90vw;
+        padding: 32px 24px;
+      }
+      .saludo {
+        font-size: 22px;
+      }
+      .cuerpo {
+        font-size: 15px;
+      }
+      .polaroid {
+        max-width: 80vw;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sobre-wrap" id="sobre" onclick="abrirSobre()">
+    <div class="sobre">
+      <div class="tapa"></div>
+      <div class="sobre-fondo"></div>
+      <p class="toca">Toca para abrir</p>
+    </div>
+  </div>
+
+  <!-- Polaroids -->
+  <div class="polaroid-wrap" id="polaroids">
+    <div class="polaroid-stack" id="stack"></div>
+  </div>
+
+  <div class="carta" id="carta">
+    <p class="fecha">Junio · 2026</p>
+    <p class="saludo">Natalia,</p>
+    <p class="cuerpo">Amor, blabla</p>
+    <p class="cuerpo">Amor, blabla</p>
+    <p class="cuerpo">Amor, blabla</p>
+    <p class="firma">Con todo mi amor 🤍</p>
+  </div>
+
+  <button id="reiniciar" type="button" title="Volver a verla" aria-label="Volver a verla">↺</button>
+
+  <button id="musica-toggle" type="button" title="Pausar/reanudar música" aria-label="Pausar o reanudar música">♪</button>
+  <audio id="musica" src="heaven.mp3" loop></audio>
+
+  <div id="lirios"></div>
+
+  <script>
+    function hacerLirio(tamanio) {
+      return `<svg width="${tamanio}" height="${tamanio * 1.5}" viewBox="0 0 40 60" xmlns="http://www.w3.org/2000/svg">
+        <line x1="20" y1="58" x2="20" y2="30" stroke="#8aaa78" stroke-width="2" stroke-linecap="round"/>
+        <path d="M20 48 Q28 42 30 36 Q22 38 20 48Z" fill="#8aaa78" opacity=".8"/>
+        <ellipse cx="20" cy="18" rx="5" ry="13" fill="#f0ece4" transform="rotate(-30 20 30)" opacity=".9"/>
+        <ellipse cx="20" cy="18" rx="5" ry="13" fill="#f0ece4" transform="rotate(30 20 30)" opacity=".9"/>
+        <ellipse cx="20" cy="18" rx="5" ry="13" fill="#f0ece4" opacity=".9"/>
+        <ellipse cx="20" cy="20" rx="4" ry="11" fill="#e8e0d0" transform="rotate(-15 20 30)" opacity=".85"/>
+        <ellipse cx="20" cy="20" rx="4" ry="11" fill="#e8e0d0" transform="rotate(15 20 30)" opacity=".85"/>
+        <ellipse cx="20" cy="19" rx="4" ry="11" fill="#e8e0d0" opacity=".85"/>
+        <circle cx="20" cy="22" r="3" fill="#d4b483" opacity=".95"/>
+      </svg>`;
+    }
+
+    const capa = document.getElementById('lirios');
+    capa.style.cssText = 'position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0;';
+    for (let i = 0; i < 16; i++) {
+      const flor = document.createElement('span');
+      const tam = 20 + Math.floor(Math.random() * 18);
+      flor.innerHTML = hacerLirio(tam);
+      flor.style.cssText = `
+        position: absolute;
+        top: -80px;
+        left: ${Math.random() * 100}vw;
+        opacity: 0;
+        animation: caer ${7 + Math.random() * 8}s ${Math.random() * 10}s linear infinite;
+      `;
+      capa.appendChild(flor);
+    }
+
+    // Lista de fotos
+    const fotos = ['foto1.jpg', 'foto2.jpg', 'foto3.jpg', 'foto4.jpg', 'foto5.jpg', 'foto6.jpg'];
+    const frases = [
+      'Nuestra primera foto',
+      'Nuestro primer cumpleaños',
+      'Soy muy cabezón',
+      'Nuestra foto favorita',
+      'Tu esposo tiene un brazo enorme',
+      'Nuestra familia, falta Kiam :('
+    ];
+    let fotoIndex = 0;
+    const stack = document.getElementById('stack');
+
+    function crearPolaroid(src, clase, frase) {
+      const div = document.createElement('div');
+      div.className = 'polaroid ' + clase;
+      const img = document.createElement('img');
+      img.src = src;
+      div.appendChild(img);
+      const caption = document.createElement('p');
+      caption.className = 'polaroid-caption';
+      caption.textContent = frase || '';
+      div.appendChild(caption);
+      return div;
+    }
+
+    function renderStack() {
+      stack.querySelectorAll('.polaroid').forEach(el => el.remove());
+      const nuevas = [];
+      if (fotos[fotoIndex]) {
+        const p = crearPolaroid(fotos[fotoIndex], 'detras-1', frases[fotoIndex]);
+        stack.appendChild(p);
+        nuevas.push([p, 'activa']);
+      }
+      if (fotos[fotoIndex + 1]) {
+        const p = crearPolaroid(fotos[fotoIndex + 1], 'detras-2', frases[fotoIndex + 1]);
+        stack.appendChild(p);
+        nuevas.push([p, 'detras-1']);
+      }
+      if (fotos[fotoIndex + 2]) {
+        const p = crearPolaroid(fotos[fotoIndex + 2], 'detras-3-inicial', frases[fotoIndex + 2]);
+        stack.appendChild(p);
+        nuevas.push([p, 'detras-2']);
+      }
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          nuevas.forEach(([el, clase]) => {
+            el.classList.remove('detras-1', 'detras-2', 'detras-3-inicial');
+            el.classList.add(clase);
+          });
+        });
+      });
+    }
+    renderStack();
+
+    function abrirSobre() {
+      const sobre = document.getElementById('sobre');
+      if (sobre.classList.contains('abierto')) return;
+      sobre.classList.add('abierto');
+
+      // Música
+      const musica = document.getElementById('musica');
+      const musicaToggle = document.getElementById('musica-toggle');
+      musica.volume = 0.5;
+      musica.play().catch(() => {});
+      musicaToggle.style.display = 'flex';
+
+      // Paso 1 — la tapa se abre
+      sobre.querySelector('.tapa').style.transform = 'rotateX(180deg)';
+
+      // Paso 2 — sale la hojita
+      setTimeout(() => {
+        const hoja = document.createElement('div');
+        hoja.style.cssText = `
+          position: absolute;
+          left: 50%;
+          bottom: 10%;
+          transform: translateX(-50%) scaleY(0.3);
+          transform-origin: bottom center;
+          width: 220px;
+          height: 150px;
+          background: white;
+          border-radius: 4px;
+          box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+          border-top: 3px solid #c8a96e;
+          animation: salirHoja 0.7s ease forwards;
+          z-index: 3;
+        `;
+        sobre.appendChild(hoja);
+      }, 700);
+
+      // Paso 3 — sobre desaparece, aparecen las polaroids
+      setTimeout(() => {
+        sobre.style.transition = 'opacity 0.4s';
+        sobre.style.opacity = '0';
+        setTimeout(() => {
+          sobre.style.display = 'none';
+          const polaroids = document.getElementById('polaroids');
+          polaroids.style.display = 'block';
+          polaroids.style.animation = 'aparecer 0.9s ease forwards';
+        }, 400);
+      }, 1600);
+    }
+
+    // Click en las polaroids: la de adelante se "pasa con la mano" hacia atrás
+    document.getElementById('polaroids').addEventListener('click', () => {
+      const polaroids = document.getElementById('polaroids');
+      const activa = stack.querySelector('.polaroid.activa');
+      if (!activa || activa.classList.contains('saliendo-mano')) return;
+
+      if (fotoIndex < fotos.length - 1) {
+        activa.classList.remove('activa');
+        activa.classList.add('saliendo-mano');
+        fotoIndex++;
+        setTimeout(() => {
+          activa.remove();
+          renderStack();
+        }, 500);
+      } else {
+        // Última foto -> sale con la mano y luego transición hacia la carta
+        activa.classList.remove('activa');
+        activa.classList.add('saliendo-mano');
+        polaroids.classList.add('saliendo');
+        setTimeout(() => {
+          polaroids.style.display = 'none';
+          const carta = document.getElementById('carta');
+          carta.style.display = 'block';
+          carta.style.animation = 'entrarCarta 0.9s ease forwards';
+          document.getElementById('reiniciar').style.display = 'flex';
+        }, 550);
+      }
+    });
+
+    // Botón "Volver a verla" — reinicia toda la experiencia
+    document.getElementById('reiniciar').addEventListener('click', () => {
+      const carta = document.getElementById('carta');
+      const polaroids = document.getElementById('polaroids');
+      const sobre = document.getElementById('sobre');
+
+      carta.style.animation = '';
+      carta.style.opacity = '0';
+      carta.style.display = 'none';
+
+      polaroids.classList.remove('saliendo');
+      polaroids.style.display = 'none';
+      polaroids.style.animation = '';
+
+      fotoIndex = 0;
+      renderStack();
+
+      const hoja = sobre.querySelector('div[style*="salirHoja"]');
+      if (hoja) hoja.remove();
+      sobre.querySelector('.tapa').style.transform = '';
+      sobre.style.transition = '';
+      sobre.style.opacity = '1';
+      sobre.style.display = 'block';
+      sobre.classList.remove('abierto');
+      document.getElementById('reiniciar').style.display = 'none';
+
+      const musica = document.getElementById('musica');
+      musica.pause();
+      musica.currentTime = 0;
+      document.getElementById('musica-toggle').style.display = 'none';
+    });
+
+    document.getElementById('musica-toggle').addEventListener('click', () => {
+      const musica = document.getElementById('musica');
+      const btn = document.getElementById('musica-toggle');
+      if (musica.paused) {
+        musica.play().catch(() => {});
+        btn.textContent = '♪';
+      } else {
+        musica.pause();
+        btn.textContent = '✕';
+      }
+    });
+  </script>
+</body>
+</html>
